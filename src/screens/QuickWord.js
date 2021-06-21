@@ -13,7 +13,6 @@ export default function MagicNumber({ navigation }) {
         <BackButton goBack={navigation.goBack} />
         <Logo />
         <Header>Quick Word</Header>
-        
     </Background>
   )
 }
