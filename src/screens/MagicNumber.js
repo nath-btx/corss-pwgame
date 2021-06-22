@@ -9,21 +9,19 @@ import TextInput from '../components/TextInput'
 import {io} from "socket.io-client"
 import UserContext from '../core/User'
 import { useContext, Text } from 'react'
+import { SocketContext} from '../core/Socket'
 
 
 export default function MagicNumber({ navigation }) {    
-
     const [number, setNumber] = useState({ value: '', error: '' })
     const {user} = useContext(UserContext)
+    const socket = useContext(SocketContext)
 
     const onSendPressed = () => {
         setNumber({ ...number})
         console.log(number.value)
-        var socket = io.connect("http://localhost:3000")
-        socket.emit('number',number.value)
+        socket.emit('number',{ username : user.name.text, number: number.value})
     }
-    console.log(user.name)
-    console.log(typeof(user.name))
   return (
     <Background>
         <BackButton goBack={navigation.goBack} />

@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import TextInput from '../components/TextInput'
 import BackButton from '../components/BackButton'
 import Button from '../components/Button'
+
 import UserContext from '../core/User'
 import { useContext } from 'react'
 
@@ -22,6 +23,7 @@ export default function LoginScreen({ navigation }){
         routes: [{ name: 'Dashboard' }],
       })
     }
+    console.log(user.name)
     return (
         <Background>
             <BackButton goBack={navigation.goBack} />
