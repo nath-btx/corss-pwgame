@@ -8,7 +8,7 @@ import BackButton from '../components/BackButton'
 import TextInput from '../components/TextInput'
 import {io} from "socket.io-client"
 import UserContext from '../core/User'
-import { useContext } from 'react'
+import { useContext, Text } from 'react'
 
 
 export default function MagicNumber({ navigation }) {    
@@ -23,6 +23,7 @@ export default function MagicNumber({ navigation }) {
         socket.emit('number',number.value)
     }
     console.log(user.name)
+    console.log(typeof(user.name))
   return (
     <Background>
         <BackButton goBack={navigation.goBack} />
@@ -38,6 +39,7 @@ export default function MagicNumber({ navigation }) {
         <Button mode="contained" onPress={onSendPressed}>
             Send
         </Button>
+        <Header>{user.name.text}</Header>
     </Background>
   )
 }

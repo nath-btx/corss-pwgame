@@ -17,8 +17,8 @@ export default function Dashboard({ navigation }) {
             onPress={() =>
                 navigation.reset({
                     index: 0,
-                    routes: [{ name: 'Dashboard' }],
-                })
+                    routes: [{ name: 'StartScreen' }],
+                  })
             }
         >
         Logout
