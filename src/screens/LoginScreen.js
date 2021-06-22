@@ -23,7 +23,6 @@ export default function LoginScreen({ navigation }){
         routes: [{ name: 'Dashboard' }],
       })
     }
-    console.log(user.name)
     return (
         <Background>
             <BackButton goBack={navigation.goBack} />

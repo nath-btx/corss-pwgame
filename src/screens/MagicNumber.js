@@ -20,7 +20,7 @@ export default function MagicNumber({ navigation }) {
 
     const onSendPressed = () => {
         setNumber({ ...number})
-        console.log(number.value)
+        console.log(`Sent value ${number.value} to the socket`)
         socket.emit('number',{ username : user.name.text, number: number.value})
     }
     useEffect(() => {
@@ -32,17 +32,16 @@ export default function MagicNumber({ navigation }) {
                 [
                     {
                         text: "Cancel",
-                        onPress: () => console.log("cancel pressed"),
                     },
                     {
                         text: "OK",
-                        onPress: () => console.log("ok pressed")
                     }
                 ]
             )
             //Popup saying who found the number (msg.username) and the number (msg.number)
         }
         const gameOverListener = msg => {
+            console.log(`game won by ${msg.username}`)
             Alert.alert(
                 `Game won by ${msg.username}`,
                 `Leaderboard : \n
