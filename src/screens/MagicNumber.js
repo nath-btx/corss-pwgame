@@ -8,7 +8,7 @@ import BackButton from '../components/BackButton'
 import TextInput from '../components/TextInput'
 import {io} from "socket.io-client"
 import UserContext from '../core/User'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { SocketContext} from '../core/Socket'
 import { Modal, Text, Pressable, StyleSheet, View, Alert } from "react-native"
 
@@ -20,7 +20,7 @@ export default function MagicNumber({ navigation }) {
 
     const AlertVictory = () => {
         Alert.alert(
-            "Victoire de : "+ msg.username,
+            "Nombre trouvé ",
             "",
             [
                 {
@@ -57,15 +57,16 @@ export default function MagicNumber({ navigation }) {
         console.log(number.value)
         socket.emit('number',{ username : user.name.text, number: number.value})
     }
-    socket.on('victory',msg => {
-        console.log(`number : ${msg.number} found by user : ${msg.username}`)
-        AlertVictory
-        //Popup saying who found the number (msg.username) and the number (msg.number)
-    })
-
-    socket.on('gameOver', msg => {
-        AlertGameOver
-        //Render new screen, with un tableau des scores (msg)
+    useEffect(() => {
+        socket.once('victory',msg => {
+            console.log(`number : ${msg.number} found by user : ${msg.username}`)
+            AlertVictory()
+            //Popup saying who found the number (msg.username) and the number (msg.number)
+        })
+        socket.once('gameOver', msg => {
+            AlertGameOver
+            //Render new screen, with un tableau des scores (msg)
+        })
     })
   return (
     <Background>
@@ -75,6 +76,7 @@ export default function MagicNumber({ navigation }) {
         <TextInput
             label="Number"
             returnKeyType="next"
+            keyboardType = 'numeric'
             value={number.value}
             onChangeText={(text) => setNumber({ value: text, error: '' })}
             autoCapitalize="none"
@@ -83,11 +85,16 @@ export default function MagicNumber({ navigation }) {
             Send
         </Button>
         <Header>{user.name.text}</Header>
-        {/* <Button
+        <Button
         onPress={AlertVictory}
         >
             Victoire
-        </Button> */}
+        </Button>
+        <Button
+        onPress={AlertGameOver}
+        >
+            Game Over
+        </Button>
     </Background>
   )
 }
