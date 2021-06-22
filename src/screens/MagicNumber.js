@@ -18,56 +18,56 @@ export default function MagicNumber({ navigation }) {
     const {user} = useContext(UserContext)
     const socket = useContext(SocketContext)
 
-    const AlertVictory = () => {
-        Alert.alert(
-            "Nombre trouvé ",
-            "",
-            [
-                {
-                    text: "Cancel",
-                    onPress: () => console.log("cancel pressed"),
-                },
-                {
-                    text: "OK",
-                    onPress: () => console.log("ok pressed")
-                }
-            ]
-        )
-    }
-
-    const AlertGameOver = () => {
-        Alert.alert(
-            "Alert title",
-            "Alert msg",
-            [
-                {
-                    text: "Cancel",
-                    onPress: () => console.log("cancel pressed"),
-                },
-                {
-                    text: "OK",
-                    onPress: () => console.log("ok pressed")
-                }
-            ]
-        )
-    }
-
     const onSendPressed = () => {
         setNumber({ ...number})
         console.log(number.value)
         socket.emit('number',{ username : user.name.text, number: number.value})
     }
     useEffect(() => {
-        socket.once('victory',msg => {
-            console.log(`number : ${msg.number} found by user : ${msg.username}`)
-            AlertVictory()
+        const victoryListener = msg => {
+            console.log(`Number : ${msg.number} found by ${msg.username}`)
+            Alert.alert(
+                `number : ${msg.number} found by ${msg.username}`,
+                "",
+                [
+                    {
+                        text: "Cancel",
+                        onPress: () => console.log("cancel pressed"),
+                    },
+                    {
+                        text: "OK",
+                        onPress: () => console.log("ok pressed")
+                    }
+                ]
+            )
             //Popup saying who found the number (msg.username) and the number (msg.number)
-        })
-        socket.once('gameOver', msg => {
-            AlertGameOver
+        }
+        const gameOverListener = msg => {
+            Alert.alert(
+                `Game won by ${msg.scoreBoard}`,
+                "Alert",
+                [
+                    {
+                        text: "Cancel",
+                        onPress: () => console.log("cancel pressed"),
+                    },
+                    {
+                        text: "OK",
+                        onPress: () => console.log("ok pressed")
+                    }
+                ]
+            )
             //Render new screen, with un tableau des scores (msg)
-        })
-    })
+        }
+        socket.on('victory',victoryListener)
+        socket.on('gameOver',gameOverListener)
+
+
+        return () => {
+            socket.off('victory', victoryListener);
+            socket.off('gameOver', gameOverListener)
+         }
+    },[])
   return (
     <Background>
         <BackButton goBack={navigation.goBack} />
@@ -85,16 +85,6 @@ export default function MagicNumber({ navigation }) {
             Send
         </Button>
         <Header>{user.name.text}</Header>
-        <Button
-        onPress={AlertVictory}
-        >
-            Victoire
-        </Button>
-        <Button
-        onPress={AlertGameOver}
-        >
-            Game Over
-        </Button>
     </Background>
   )
 }
