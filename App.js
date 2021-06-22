@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React,{useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
@@ -9,14 +9,16 @@ import StartScreen from "./src/screens/StartScreen"
 import LoginScreen from "./src/screens/LoginScreen"
 import MagicNumber from './src/screens/MagicNumber'
 import QuickWord from './src/screens/QuickWord'
+import UserContext from './src/core/User';
 
 const Stack = createStackNavigator()
 
 
 export default function App() {
+  const [name, setUsername] = useState('')
   return (
-    
-    <NavigationContainer>
+    <UserContext.Provider value={{user: {name}, setUsername}}>
+          <NavigationContainer>
         <Stack.Navigator
           initialRouteName="StartScreen"
           screenOptions={{
@@ -30,7 +32,7 @@ export default function App() {
           <Stack.Screen name="QuickWord" component={QuickWord} />
         </Stack.Navigator>
       </NavigationContainer>
-    
+    </UserContext.Provider>    
   );
 }
 

@@ -7,15 +7,15 @@ import Header from '../components/Header'
 import TextInput from '../components/TextInput'
 import BackButton from '../components/BackButton'
 import Button from '../components/Button'
+import UserContext from '../core/User'
+import { useContext } from 'react'
 
-export default function LoginScreen({ navigation }) {
-    const [username, setUsername] = useState({ value: '', error: '' })
-    const [password, setPassword] = useState({ value: '', error: '' })
-  
+export default function LoginScreen({ navigation }){
+
+    const {user, setUsername} = useContext(UserContext)
     const onLoginPressed = () => {
 
-        setUsername({ ...username})
-        setPassword({ ...password})
+        setUsername(user.name)
 
       navigation.reset({
         index: 0,
@@ -35,8 +35,8 @@ export default function LoginScreen({ navigation }) {
             <TextInput
                 label="Username"
                 returnKeyType="next"
-                value={username.value}
-                onChangeText={(text) => setUsername({ value: text, error: '' })}
+                value={user.name.value}
+                onChangeText={(text) => setUsername({text})}
                 autoCapitalize="none"
             />
             <Button mode="contained" onPress={onLoginPressed}>

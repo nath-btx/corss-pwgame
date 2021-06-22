@@ -6,17 +6,23 @@ import Paragraph from '../components/Paragraph'
 import Button from '../components/Button'
 import BackButton from '../components/BackButton'
 import TextInput from '../components/TextInput'
+import {io} from "socket.io-client"
+import UserContext from '../core/User'
+import { useContext } from 'react'
 
 
+export default function MagicNumber({ navigation }) {    
 
-export default function MagicNumber({ navigation }) {
     const [number, setNumber] = useState({ value: '', error: '' })
-
+    const {user} = useContext(UserContext)
 
     const onSendPressed = () => {
         setNumber({ ...number})
+        console.log(number.value)
+        var socket = io.connect("http://localhost:3000")
+        socket.emit('number',number.value)
     }
-
+    console.log(user.name)
   return (
     <Background>
         <BackButton goBack={navigation.goBack} />
