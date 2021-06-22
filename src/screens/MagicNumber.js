@@ -44,8 +44,11 @@ export default function MagicNumber({ navigation }) {
         }
         const gameOverListener = msg => {
             Alert.alert(
-                `Game won by ${msg.scoreBoard}`,
-                "Alert",
+                `Game won by ${msg.username}`,
+                `Leaderboard : \n
+                ${Object.entries(msg.scoreBoard).map(([key, value])=> {
+                    return(`${key} : ${value} points`)
+                })}`,
                 [
                     {
                         text: "Cancel",
