@@ -22,6 +22,14 @@ export default function MagicNumber({ navigation }) {
         console.log(number.value)
         socket.emit('number',{ username : user.name.text, number: number.value})
     }
+    socket.on('victory',msg => {
+        console.log(`number : ${msg.number} found by user : ${msg.username}`)
+        //Popup saying who found the number (msg.username) and the number (msg.number)
+    })
+
+    socket.on('gameOver', msg => {
+        //Render new screen, with un tableau des scores (msg)
+    })
   return (
     <Background>
         <BackButton goBack={navigation.goBack} />
