@@ -22,6 +22,7 @@ export default function MagicNumber({ navigation }) {
         setNumber({ ...number})
         console.log(`Sent value ${number.value} to the socket`)
         socket.emit('number',{ username : user.name.text, number: number.value})
+        setNumber({value:'',error:''})
     }
     useEffect(() => {
         const victoryListener = msg => {
@@ -78,7 +79,7 @@ export default function MagicNumber({ navigation }) {
         <TextInput
             label="Number"
             returnKeyType="next"
-            keyboardType = 'numeric'
+            keyboardType = 'phone-pad'
             value={number.value}
             onChangeText={(text) => setNumber({ value: text, error: '' })}
             autoCapitalize="none"
