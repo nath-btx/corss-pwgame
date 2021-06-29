@@ -35,6 +35,12 @@ export default function Dashboard({ navigation }) {
       >
         Quick Word
       </Button>
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate('WordAndFurious')}
+      >
+        WordAndFurious
+      </Button>
     </Background>
   )
 }

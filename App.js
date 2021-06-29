@@ -9,6 +9,8 @@ import StartScreen from "./src/screens/StartScreen"
 import LoginScreen from "./src/screens/LoginScreen"
 import MagicNumber from './src/screens/MagicNumber'
 import QuickWord from './src/screens/QuickWord'
+import WordAndFurious from './src/screens/WordAndFurious';
+
 import UserContext from './src/core/User';
 import { SocketContext, socket } from './src/core/Socket';
 const Stack = createStackNavigator()
@@ -31,6 +33,7 @@ export default function App() {
             <Stack.Screen name="Dashboard" component={Dashboard} />
             <Stack.Screen name="MagicNumber" component={MagicNumber} />
             <Stack.Screen name="QuickWord" component={QuickWord} />
+            <Stack.Screen name="WordAndFurious" component={WordAndFurious} />
           </Stack.Navigator>
         </NavigationContainer>
       </SocketContext.Provider>
